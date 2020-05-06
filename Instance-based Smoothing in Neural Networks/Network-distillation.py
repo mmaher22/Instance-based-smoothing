@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', default='cifar10')
     parser.add_argument('--model', default = 'inceptionv4', help='Model to be used')
     args = parser.parse_args()
-    json_path = os.path.join('model/params.json')
+    json_path = os.path.join('utils/params.json')
     params = utils.Params(json_path)
     params.cuda = torch.cuda.is_available()
     if params.cuda: torch.cuda.manual_seed(42)
