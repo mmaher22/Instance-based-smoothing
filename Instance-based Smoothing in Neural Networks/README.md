@@ -1,5 +1,4 @@
 # Instance-based Label Smoothing for Neural Networks
-- Session-based Matrix Factorization for Session Based Recommendation.
 - Pytorch Implementation of the algorithm.
 - This repository includes a new proposed method for instance-based label smoothing in neural networks, where the target probability distribution is not uniformly distributed among incorrect classes. Instead, each incorrect class is going to be assigned a target probability that is proportional to the output score of this particular class relative to all the remaining classes for a network trained with vanilla cross-entropy loss on the hard target labels. 
 
