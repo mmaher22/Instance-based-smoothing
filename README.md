@@ -44,6 +44,27 @@ The project have a structure as below:
 `Datasets/` includes all real-world datasets used in the evaluation experiments.<br>
 
 ### Examples:
+#### Synthetic Dataset Generator | Generative Model of Datasets:
+<details><summary>Open Example</summary>
+<p>
+        
+```DatasetGenerator.py```
+        
+```python
+generator = SyntheticGaussianGenerator(p = ratio) #Positive/Negative classes instances are normally distributed with p*100% for positive class
+generator.set_gaussian_parameters(mu0, mu1, sig, sig) #gaussian dataset generator object with mu0, mu1 for means of negative, positive classes respectively and sig, sig for their standard deviation
+X_train, y_train = generator.generate(int(tr_size)) #generate dataset of size 'tr_size'
+################################################################
+prior_object = uniform_prior(l0min = a0, l0max = b0, l1min = a1, l1max = b1, lsmin=sigma, lsmax=sigma) #means of positive and negative classes gaussian distributions are drawn from uniform distributions of parameters a0,b0 for negative class mean and a1,b1 for positive class mean, and stddev from a uniform distribution with start of lsmin and end of lsmax (here is is fixed to sigma)
+# OR
+prior_object = beta_prior(a0 = a0, b0 = b0, a1 = a1, b1 = b1, shift=sep, lsmin=sigma, lsmax=sigma) #means of positive and negative classes gaussian distributions are drawn from beta distributions of parameters a0,b0 for negative class mean and a1,b1 for positive class mean shifted with shift, and stddev from a uniform distribution with start of lsmin and end of lsmax (here is is fixed to sigma)
+
+mu0s, mu1s, sigs = prior_object.sample(generative_model_samples) #generate 'generative_model_samples' samples from prior distribution object for means/stdev of positive or negative classes
+
+```
+</p>
+</details>
+
 #### Bayesian Logistic Regression:
 <details><summary>Open Example</summary>
 <p>
