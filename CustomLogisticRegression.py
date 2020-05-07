@@ -64,7 +64,7 @@ def _sigmoid_calibration(X, y,  T1 = None, tol = 1e-3):
     return AB_[0:-1], AB_[-1]
 
 class CustomLogisticRegression():
-	def __init__(self, smoothing_factor_pos = 0, smoothing_factor_neg = 0, tolerance = 1e-1, regularization = 'none', regularization_strength = 0, platt_scaling = False):
+	def __init__(self, smoothing_factor_pos = 0, smoothing_factor_neg = 0, tolerance = 1e-3, regularization = 'none', regularization_strength = 0, platt_scaling = False):
 		self.smoothing_factor_pos = smoothing_factor_pos
 		self.smoothing_factor_neg = smoothing_factor_neg
 		self.platt = platt_scaling
