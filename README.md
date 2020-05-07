@@ -33,13 +33,13 @@ The project have a structure as below:
 │   ├── aecoli.csv
 │   ├── balloon.csv
 ```
-`Vanilla-cross-entropy.py` is the file used for training the networks using cross-entropy without label smoothing. <br>
-`Label-smoothing.py` is the file used for training the networks using cross-entropy with standard label smoothing. <br>
-`Instance-based-smoothing.py` is the file used for training the networks using cross-entropy with instance-based label smoothing. <br>
-`Models-evaluation.py` is the file used for evaluation of the trained networks. <br>
-`Network-distillation.py` is the file used for distillation of trained networks into a shallow convolutional network of 5 layers. <br>
-`models/` includes all the implementations of the different architectures used in our evaluation like <i>ResNet, DenseNet, Inception-V4</i>. Also, the <i>shallow-cnn</i> student network used in distillation experiments.<br>
-`utils/` includes all utilities functions required for the different models training and evaluation.<br>
+`BayesianCoeffLogisticRegression.py` is the implementation class for training the Bayesian logistic regression with a cauchy prior for the model coefficients [`Gelman et al., 2008`](http://www.stat.columbia.edu/~gelman/research/published/priors11.pdf). <br>
+`CESmoothedLogisticRegression.py` is the implementation class for logistic regression with Platt scaling label smoothing. <br>
+`CustomLogisticRegression.py` is the implementation class for vanilla logistic regression, or with coefficients L1/L2 regularization. <br>
+`KDELogisticRegression.py` is the implementation class for logistic regression with instance-based label smoothing. <br>
+`BayesianDataLogisticRegression.py` is the implementation class for the derived Bayesian approach of the optimal probability predictions for a dataset with a known generative model distribution (can be used with synthetic datasets only). <br>
+`DatasetGenerator.py` class for the synthetic datasets generation. <br>
+`Datasets/` includes all real-world datasets used in the evaluation experiments.<br>
 
 Example
 ```bash
@@ -59,7 +59,16 @@ python Instance-based-smoothing.py --dataset cifar10 --model resnet18 --num_clas
 
 
 ## Results
+- Critical Difference diagram of the evaluated methods on real datasets in terms of log loss and expected calibration error can be found below:
 
-- Results of the comparison of different methods on 3 datasets using 4 different architectures are reported in the following table. <br>
-- The experiments were repeated 3 times, and average $\pm$ stdev of log loss, expected calibration error (ECE), accuracy, distilled student network accuracy and distilled student log loss metrics are reported.
+Cross Entropy Loss (Higher rank is better)
+<div style="text-align: center">
+<img src="results/all-ce.png" width="450px" alt="Real datasets CE results"/>
+</div>
 
+Expected Calibration Error (Higher rank is better)
+<div style="text-align: center">
+<img src="results/all-ece.png" width="450px" alt="Real datasets ECE results"/>
+</div>
+
+- For the synthetic datasets results, review the thesis text.
