@@ -87,39 +87,29 @@ class KDELogisticRegression():
         d = X.shape[1]
         platt_neg = 1 / (N0 + 2)
         platt_pos = 1 / (N1 + 2)
-        #clr = max(N1/N0, N0/N1)
-        #print('Smoothing factor:', platt_neg, '-->', 1/(self.neg_kernel_bw) * platt_neg)
-        #print('Smoothing factor:', 1 - platt_pos, '-->', 1/(self.pos_kernel_bw) * platt_pos)
-        #print('d:', d)
         for i in range(len(y)):
             sample = X[i].reshape(1, -1)
-            score_pos = np.exp(self.pos_kde.score_samples(sample))
-            score_neg = np.exp(self.neg_kde.score_samples(sample))
+            score_pos = np.absolute(self.pos_kde.score_samples(sample))
+            score_neg = np.absolute(self.neg_kde.score_samples(sample))
             if y[i] > 0:
                 y_smoothed[i] = 1 - platt_pos * score_pos / (score_pos + score_neg)
             else:
                 y_smoothed[i] = platt_neg * score_neg / (score_pos + score_neg)
-            #if i < 5:
-                #print(y_smoothed[i], score_pos, score_neg, '<-------------------------')
         return y_smoothed
 
     def fit(self, X_train, y_train):
         if X_train.ndim == 1:
             X_train = X_train.reshape(-1, 1)
-        #ros2 = RandomOverSampler(random_state=0)
-        ros3 = RandomUnderSampler(random_state=0)
-        #X_train2, y_train2 = ros2.fit_resample(X_train, y_train)
-        X_train3, y_train3 = ros3.fit_resample(X_train, y_train)
-        if X_train3.ndim == 1:
-            #X_train2 = X_train2.reshape(-1, 1)
-            X_train3 = X_train3.reshape(-1, 1)
-        self.create_kernel_density_estimators(S0 = X_train3[np.where(y_train3 == 0)], S1 = X_train3[np.where(y_train3 == 1)])
+        ros = RandomOverSampler(random_state=0)
+        X_train2, y_train2 = ros.fit_resample(X_train, y_train)
+        if X_train2.ndim == 1:
+            X_train2 = X_train2.reshape(-1, 1)
+        self.create_kernel_density_estimators(S0 = X_train2[np.where(y_train2 == 0)], S1 = X_train2[np.where(y_train2 == 1)])
 
         y_train_smoothed = self.smooth_labels(X_train, y_train)
         self.a, self.b = _sigmoid_calibration(np.squeeze(X_train), y_train, y_train_smoothed, tol = self.tolerance)
 	
     def predict_proba(self, X):
-        #print(self.b, self.b.shape, self.a, self.a.shape)
         preds_probs = sigmoid(self.a, self.b, X)
         return preds_probs
 
