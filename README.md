@@ -8,7 +8,7 @@
 - Besides, the repository includes Python Implementation of different logistic regression fitting approaches including Bayesian Logistic Regression using Cauchy priors for the model coefficients, L1/L2 regularization, and label smoothing using Platt scaling as shown in the table below.
 
 <div style="text-align: center">
-<img src="results/methods.png" width="900px" alt="Implemented Methods"/>
+<img src="results/methods.png" width="900px" alt="Implemented Methods."/>
 </div>
 
 ## Requirements
