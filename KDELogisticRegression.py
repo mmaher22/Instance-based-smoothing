@@ -89,8 +89,8 @@ class KDELogisticRegression():
         platt_pos = 1 / (N1 + 2)
         for i in range(len(y)):
             sample = X[i].reshape(1, -1)
-            score_pos = np.exp(self.pos_kde.score_samples(sample))
-            score_neg = np.exp(self.neg_kde.score_samples(sample))
+            score_pos = self.pos_kde.score_samples(sample)
+            score_neg = self.neg_kde.score_samples(sample)
             if y[i] > 0:
                 y_smoothed[i] = 1 - platt_pos * score_pos / (score_pos + score_neg)
             else:
